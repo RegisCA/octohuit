@@ -1,5 +1,5 @@
 import type { Language, LanguageData } from '../data/types'
-import type { GameState } from '../game/engine'
+import { computeScore, type GameState } from '../game/engine'
 import { dictionaryUrl, type Strings } from '../i18n/strings'
 
 interface ResultsModalProps {
@@ -27,6 +27,7 @@ export function ResultsModal({ game, language, languageData, strings, onClose, o
         <p className="results-subtitle">
           {won ? strings.winSubtitle(game.guessCount, game.maxGuesses) : strings.loseSubtitle}
         </p>
+        {won && <p className="results-score">{strings.score(computeScore(game))}</p>}
 
         <h3 className="results-heading">{strings.solutionsHeading}</h3>
         <ol className="results-list">
