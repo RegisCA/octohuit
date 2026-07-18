@@ -1,0 +1,773 @@
+/* ---------------------------------------------------------------------- */
+/* Theme tokens                                                            */
+/* ---------------------------------------------------------------------- */
+
+:root {
+  --bg: #f6f7fb;
+  --bg-elevated: #ffffff;
+  --text: #1c1d22;
+  --text-muted: #6b6d78;
+  --border: #dcdde3;
+  --border-strong: #c3c5cf;
+
+  --accent: #4f46e5;
+  --accent-text: #ffffff;
+
+  --tile-empty-bg: #ffffff;
+  --tile-empty-border: #cfd1da;
+  --tile-filled-border: #8b8d99;
+  --tile-text: #ffffff;
+
+  --correct-bg: #3a8f5b;
+  --present-bg: #d68a12;
+  --absent-bg: #7a7c85;
+
+  --key-bg: #e4e5eb;
+  --key-bg-hover: #d6d8e0;
+  --key-text: #1c1d22;
+  --key-dead-bg: #8f919b;
+  --key-dead-text: #eef0f4;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 30, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 20, 30, 0.12);
+  --shadow-lg: 0 20px 60px rgba(20, 20, 30, 0.28);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  --sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #131318;
+    --bg-elevated: #1c1d24;
+    --text: #edeef2;
+    --text-muted: #9a9ca8;
+    --border: #33343d;
+    --border-strong: #45464f;
+
+    --accent: #8b83ff;
+    --accent-text: #12121a;
+
+    --tile-empty-bg: #1c1d24;
+    --tile-empty-border: #3a3b45;
+    --tile-filled-border: #6a6c78;
+    --tile-text: #f4f4f6;
+
+    --correct-bg: #4caf7c;
+    --present-bg: #e0a53a;
+    --absent-bg: #4a4c56;
+
+    --key-bg: #3d3f4c;
+    --key-bg-hover: #4a4c5a;
+    --key-text: #edeef2;
+    --key-dead-bg: #1b1b21;
+    --key-dead-text: #575862;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #131318;
+  --bg-elevated: #1c1d24;
+  --text: #edeef2;
+  --text-muted: #9a9ca8;
+  --border: #33343d;
+  --border-strong: #45464f;
+
+  --accent: #8b83ff;
+  --accent-text: #12121a;
+
+  --tile-empty-bg: #1c1d24;
+  --tile-empty-border: #3a3b45;
+  --tile-filled-border: #6a6c78;
+  --tile-text: #f4f4f6;
+
+  --correct-bg: #4caf7c;
+  --present-bg: #e0a53a;
+  --absent-bg: #4a4c56;
+
+  --key-bg: #3d3f4c;
+  --key-bg-hover: #4a4c5a;
+  --key-text: #edeef2;
+  --key-dead-bg: #1b1b21;
+  --key-dead-text: #575862;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Base / reset                                                            */
+/* ---------------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#root {
+  height: 100dvh;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------- */
+/* App shell                                                               */
+/* ---------------------------------------------------------------------- */
+
+.app {
+  height: 100dvh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: clamp(6px, 1vh, 12px);
+  padding: clamp(8px, 1.2vh, 16px) clamp(10px, 1.6vw, 24px);
+}
+
+.app-main {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(6px, 1.2vh, 14px);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Header                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.wordmark {
+  margin: 0;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: linear-gradient(120deg, var(--accent), #ec4899 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.guess-counter {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: clamp(13px, 1.3vw, 16px);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  background: var(--bg-elevated);
+}
+
+.app-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.toggle-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 10px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.toggle-btn + .toggle-btn {
+  border-left: 1px solid var(--border);
+}
+
+.toggle-btn:hover {
+  background: var(--key-bg-hover);
+}
+
+.toggle-btn--active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.toggle-btn--active:hover {
+  background: var(--accent);
+}
+
+.toggle-btn--icon {
+  font-size: 14px;
+  padding: 6px 9px;
+  line-height: 1;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-elevated);
+  color: var(--text);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: var(--key-bg-hover);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+.btn--danger {
+  background: #d64545;
+  border-color: #d64545;
+  color: #fff;
+}
+
+.btn--danger:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Boards grid                                                             */
+/* ---------------------------------------------------------------------- */
+
+.boards-grid {
+  min-height: 0;
+  display: grid;
+  /* Cap board width so tiles keep a pleasant ~2:1 shape instead of
+     stretching across the full viewport on wide screens. */
+  grid-template-columns: repeat(4, minmax(0, clamp(180px, 17vw, 250px)));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  justify-content: center;
+  column-gap: clamp(10px, 2vw, 36px);
+  row-gap: clamp(6px, 1.2vh, 16px);
+}
+
+.board {
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Boards are chromeless while in play; a solved board earns a green ring. */
+.board--solved {
+  outline: 1.5px solid var(--correct-bg);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.board__badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--correct-bg);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+}
+
+.board__rows {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(13, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.board__row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+  min-height: 0;
+}
+
+.board__row--shake {
+  animation: shake 0.4s ease;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tiles                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.tile {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile__inner {
+  font-weight: 700;
+  font-size: clamp(10px, 2vh, 18px);
+  line-height: 1;
+  color: inherit;
+}
+
+.tile--empty {
+  background: var(--tile-empty-bg);
+  border: 1px solid var(--tile-empty-border);
+  color: transparent;
+}
+
+.tile--filled {
+  background: var(--tile-empty-bg);
+  border: 1.5px solid var(--tile-filled-border);
+  color: var(--text);
+}
+
+.tile--filled.tile--pop {
+  animation: pop 0.1s ease;
+}
+
+.tile--correct,
+.tile--present,
+.tile--absent {
+  color: var(--tile-text);
+  border: 1px solid transparent;
+}
+
+.tile--correct {
+  background: var(--correct-bg);
+}
+
+.tile--present {
+  background: var(--present-bg);
+}
+
+.tile--absent {
+  background: var(--absent-bg);
+}
+
+.tile--revealed {
+  animation: flip 0.35s ease both;
+  animation-delay: calc(var(--col, 0) * 60ms);
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Keyboard                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vh, 8px);
+  padding: clamp(4px, 0.8vh, 8px) 0;
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(3px, 0.5vw, 6px);
+}
+
+.key {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--key-bg);
+  color: var(--key-text);
+  min-width: clamp(24px, 3.6vw, 42px);
+  height: clamp(34px, 6vh, 52px);
+  flex: 1;
+  max-width: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.key:hover {
+  background: var(--key-bg-hover);
+}
+
+.key:active {
+  transform: scale(0.94);
+}
+
+.key--wide {
+  flex: 1.6;
+  max-width: 72px;
+  font-size: 13px;
+}
+
+.key--dead {
+  background: var(--key-dead-bg);
+}
+
+/* A dead key reads as one uniform dimmed key: hide the per-board mosaic
+   (it would just be eight absent cells) so the dimmed label stays legible. */
+.key--dead .key__mosaic {
+  display: none;
+}
+
+.key--dead .key__label {
+  color: var(--key-dead-text);
+}
+
+.key__mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.key__cell {
+  background: transparent;
+}
+
+.key__cell--unknown {
+  background: transparent;
+}
+
+.key__cell--absent {
+  background: color-mix(in srgb, var(--absent-bg) 55%, transparent);
+}
+
+.key__cell--present {
+  background: var(--present-bg);
+}
+
+.key__cell--correct {
+  background: var(--correct-bg);
+}
+
+.key__label {
+  position: relative;
+  z-index: 1;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--key-text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.key--dead .key__label {
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Toast                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  bottom: clamp(90px, 22vh, 130px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--bg);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  animation: toast-in 0.15s ease;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Overlays / dialogs                                                       */
+/* ---------------------------------------------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 14, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: overlay-in 0.15s ease;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dialog {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: dialog-in 0.18s ease;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialog h2 {
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+
+.dialog p {
+  margin: 0 0 18px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dialog--results {
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.results-title {
+  font-size: 22px;
+}
+
+.results-title--win {
+  background: linear-gradient(120deg, var(--correct-bg), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.results-subtitle {
+  margin-bottom: 20px !important;
+}
+
+.results-heading {
+  margin: 0 0 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.results-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.results-list__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  background: var(--bg);
+}
+
+.results-list__badge {
+  font-size: 15px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.results-list__badge--unsolved {
+  color: var(--text-muted);
+}
+
+.results-list__word {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.results-list__word:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive fallback: below ~900px, allow scrolling, 2-column boards      */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  #root {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .app {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .boards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(160px, auto));
+  }
+
+  .board__rows {
+    min-height: 210px;
+  }
+
+  .tile__inner {
+    font-size: clamp(10px, 3vw, 14px);
+  }
+
+  .results-list {
+    grid-template-columns: 1fr;
+  }
+}
