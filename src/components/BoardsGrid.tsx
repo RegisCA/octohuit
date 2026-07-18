@@ -1,13 +1,15 @@
 import type { GameState } from '../game/engine'
+import type { Strings } from '../i18n/strings'
 import { Board } from './Board'
 
 interface BoardsGridProps {
   game: GameState
   currentInput: string
   shakeToken: number
+  strings: Strings
 }
 
-export function BoardsGrid({ game, currentInput, shakeToken }: BoardsGridProps) {
+export function BoardsGrid({ game, currentInput, shakeToken, strings }: BoardsGridProps) {
   return (
     <div className="boards-grid">
       {game.boards.map((board, index) => {
@@ -23,6 +25,7 @@ export function BoardsGrid({ game, currentInput, shakeToken }: BoardsGridProps) 
             isPlaying={game.status === 'playing'}
             shakeToken={shakeToken}
             solveNumber={solveNumber}
+            solvedBadgeLabel={solveNumber === null ? null : strings.boardSolvedBadge(solveNumber)}
           />
         )
       })}

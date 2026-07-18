@@ -48,7 +48,7 @@ function App() {
       />
 
       <main className="app-main">
-        <BoardsGrid game={game} currentInput={currentInput} shakeToken={shakeToken} />
+        <BoardsGrid game={game} currentInput={currentInput} shakeToken={shakeToken} strings={strings} />
         <Keyboard
           language={language}
           keyboardState={keyboardState}

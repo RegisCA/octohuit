@@ -10,11 +10,12 @@ interface BoardProps {
   isPlaying: boolean
   shakeToken: number
   solveNumber: number | null
+  solvedBadgeLabel: string | null
 }
 
 const SOLVED_BADGES = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬']
 
-export function Board({ board, boardIndex, currentInput, maxGuesses, isPlaying, shakeToken, solveNumber }: BoardProps) {
+export function Board({ board, boardIndex, currentInput, maxGuesses, isPlaying, shakeToken, solveNumber, solvedBadgeLabel }: BoardProps) {
   const isSolved = board.solvedAt !== null
   const isActiveInputRow = isPlaying && !isSolved
 
@@ -55,7 +56,7 @@ export function Board({ board, boardIndex, currentInput, maxGuesses, isPlaying, 
   return (
     <div className={classes.join(' ')} data-board-index={boardIndex}>
       {isSolved && solveNumber !== null && (
-        <span className="board__badge" aria-label={`solved-${solveNumber}`}>
+        <span className="board__badge" aria-label={solvedBadgeLabel ?? undefined} title={solvedBadgeLabel ?? undefined}>
           {SOLVED_BADGES[solveNumber - 1] ?? solveNumber}
         </span>
       )}

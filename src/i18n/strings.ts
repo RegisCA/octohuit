@@ -101,7 +101,7 @@ export function getStrings(lang: Language): Strings {
 
 export function dictionaryUrl(lang: Language, normalizedWord: string, displayWord: string): string {
   if (lang === 'en') {
-    return `https://www.merriam-webster.com/dictionary/${normalizedWord.toLowerCase()}`
+    return `https://www.merriam-webster.com/dictionary/${encodeURIComponent(normalizedWord.toLowerCase())}`
   }
-  return `https://fr.wiktionary.org/wiki/${displayWord.toLowerCase()}`
+  return `https://fr.wiktionary.org/wiki/${encodeURIComponent(displayWord.toLowerCase())}`
 }

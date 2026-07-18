@@ -15,13 +15,36 @@ interface PersistedState {
   game: GameState
 }
 
+function isValidGameState(game: unknown): game is GameState {
+  if (typeof game !== 'object' || game === null) return false
+  const g = game as Record<string, unknown>
+  return (
+    Array.isArray(g.boards) &&
+    g.boards.length === BOARD_COUNT &&
+    g.boards.every(
+      (b: unknown) =>
+        typeof b === 'object' &&
+        b !== null &&
+        typeof (b as { solution?: unknown }).solution === 'string' &&
+        ((b as { solution: string }).solution.length === WORD_LENGTH) &&
+        Array.isArray((b as { guesses?: unknown }).guesses),
+    ) &&
+    typeof g.guessCount === 'number' &&
+    typeof g.maxGuesses === 'number' &&
+    (g.status === 'playing' || g.status === 'won' || g.status === 'lost') &&
+    Array.isArray(g.solveOrder)
+  )
+}
+
 function readPersisted(): PersistedState | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
-    const parsed = JSON.parse(raw) as PersistedState
-    if (!parsed || !parsed.game || !parsed.language || !parsed.pool) return null
-    return parsed
+    const parsed = JSON.parse(raw) as Partial<PersistedState>
+    if (parsed.language !== 'en' && parsed.language !== 'fr') return null
+    if (parsed.pool !== 'common' && parsed.pool !== 'extended') return null
+    if (!isValidGameState(parsed.game)) return null
+    return parsed as PersistedState
   } catch {
     return null
   }
@@ -109,9 +132,16 @@ export function useGame() {
     [language, gameInProgress, pool, beginNewGame],
   )
 
-  const setPool = useCallback((nextPool: WordPool) => {
-    setPoolState(nextPool)
-  }, [])
+  const setPool = useCallback(
+    (nextPool: WordPool) => {
+      if (nextPool === pool) return
+      setPoolState(nextPool)
+      // The running game keeps its already-drawn solutions; let the player
+      // know the change only kicks in on the next deal.
+      if (gameInProgress) showToast(strings.poolChangeNote)
+    },
+    [pool, gameInProgress, showToast, strings.poolChangeNote],
+  )
 
   const requestNewGame = useCallback(() => {
     if (gameInProgress) {
