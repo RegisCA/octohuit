@@ -29,6 +29,7 @@ export interface Strings {
   close: string
   playAgain: string
   boardSolvedBadge: (n: number) => string
+  score: (score: number) => string
 }
 
 const en: Strings = {
@@ -60,6 +61,7 @@ const en: Strings = {
   close: 'Close',
   playAgain: 'Play again',
   boardSolvedBadge: (n) => `Solved on guess ${n}`,
+  score: (score) => `Score: ${score}`,
 }
 
 const fr: Strings = {
@@ -91,6 +93,7 @@ const fr: Strings = {
   close: 'Fermer',
   playAgain: 'Rejouer',
   boardSolvedBadge: (n) => `Résolu à l'essai ${n}`,
+  score: (score) => `Score : ${score}`,
 }
 
 const registry: Record<Language, Strings> = { en, fr }

@@ -166,4 +166,15 @@ export function isGameOver(state: GameState): boolean {
   return state.status !== 'playing'
 }
 
+/**
+ * Octordle-style numeric score: the sum, across all boards, of the guess
+ * number that solved each board, or `maxGuesses + 1` for a board that was
+ * never solved. Lower is better. Rewards solving early far more than it
+ * penalizes a miss, so it favors overall efficiency rather than punishing
+ * a single missed board.
+ */
+export function computeScore(state: GameState): number {
+  return state.boards.reduce((sum, board) => sum + (board.solvedAt ?? state.maxGuesses + 1), 0)
+}
+
 export { BOARD_COUNT, MAX_GUESSES, WORD_LENGTH }

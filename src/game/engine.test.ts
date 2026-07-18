@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   computeKeyboardState,
+  computeScore,
   createGame,
   isLetterDeadEverywhere,
   pickSolutions,
@@ -191,6 +192,37 @@ describe('computeKeyboardState', () => {
     // board1 GRAPE also gets this guess since it's unsolved
     const kb = computeKeyboardState(game)
     expect(kb['P']![0]).toBe('correct')
+  })
+})
+
+describe('computeScore', () => {
+  const solutions = ['APPLE', 'BEACH', 'CHAIR', 'DANCE', 'EAGLE', 'FLAME', 'GRAPE', 'HOUSE']
+
+  it('sums the solving guess number of every board when all are solved', () => {
+    let game = createGame(solutions)
+    for (const word of solutions) {
+      game = submitGuess(game, word)
+    }
+    // every board is solved on the guess matching its position: 1+2+...+8
+    expect(computeScore(game)).toBe(36)
+  })
+
+  it('charges maxGuesses + 1 for each unsolved board', () => {
+    let game = createGame(solutions, 3)
+    game = submitGuess(game, 'WRONG')
+    game = submitGuess(game, 'WRONG')
+    game = submitGuess(game, 'WRONG')
+    expect(game.status).toBe('lost')
+    expect(computeScore(game)).toBe(8 * 4)
+  })
+
+  it('rewards early solves over unsolved boards', () => {
+    let game = createGame(['APPLE', 'BEACH'], 3)
+    game = submitGuess(game, 'APPLE') // board0 solved on guess 1
+    game = submitGuess(game, 'WRONG')
+    game = submitGuess(game, 'WRONG')
+    expect(game.status).toBe('lost')
+    expect(computeScore(game)).toBe(1 + 4)
   })
 })
 

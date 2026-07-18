@@ -687,6 +687,12 @@ button {
   margin-bottom: 20px !important;
 }
 
+.dialog p.results-score {
+  margin: 0 0 20px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
 .results-heading {
   margin: 0 0 8px;
   font-size: 13px;
