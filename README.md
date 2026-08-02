@@ -17,6 +17,14 @@ npm run build
 npm run preview
 ```
 
+## Play it
+
+Live at **https://regisca.github.io/octohuit/** (auto-deployed from `main` via
+`.github/workflows/deploy.yml`). It's an installable PWA — open the link in
+Chrome and use "Add to Home Screen" / the install prompt to get a standalone
+app icon. Once installed, the whole game (both word lists, both languages)
+works fully offline.
+
 ## Features
 
 - **8 boards, 13 guesses** — classic Octordle rules; solved boards freeze and
