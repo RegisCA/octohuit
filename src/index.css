@@ -320,9 +320,20 @@ button {
 
 /* Boards are chromeless while in play; a solved board earns a green ring. */
 .board--solved {
-  outline: 1.5px solid var(--correct-bg);
+  outline: 1.5px solid color-mix(in srgb, var(--correct-bg) 55%, transparent);
   outline-offset: 4px;
   border-radius: var(--radius-sm);
+}
+
+/* Solved boards recede so attention stays on the boards still in play.
+   The fade waits for the winning row's flip (~590ms) to finish first. */
+.board__rows {
+  transition: opacity 0.4s ease;
+}
+
+.board--solved .board__rows {
+  opacity: 0.45;
+  transition-delay: 0.7s;
 }
 
 .board__badge {
